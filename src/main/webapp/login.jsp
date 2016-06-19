@@ -19,6 +19,10 @@
 					<td><input type="password" name="password"/></td>
 				</tr>
 				<tr>
+					<td style="border-right: none;"></td>
+					<td style="border-left: none;"><input type="checkbox" name="rememberMe" value="true"/>记住我</td>
+				</tr>
+				<tr>
 					<td align="center" colspan="2">
 						<input type="submit" value="登录"/>
 					</td>
