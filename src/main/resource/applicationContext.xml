@@ -67,5 +67,11 @@
 			</value>
 		</property>
 	</bean>
+	
+	<!-- 下面两个bean定义是启用对Shiro权限控制注解的支持 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+	    <property name="securityManager" ref="securityManager"/>
+	</bean>
 
 </beans>
