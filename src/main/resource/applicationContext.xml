@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd
+     http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<context:component-scan base-package="com.elim.learn.shiro">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+	    <property name="securityManager" ref="securityManager"/>
+	    <property name="loginUrl" value="/login.jsp"/>
+	    <property name="successUrl" value="/"/>
+	    <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
+	    <property name="filterChainDefinitions">
+	        <value>
+	            /admin/** = authc, roles[admin]
+	            /logout = logout
+	            /** = authc
+	        </value>
+	    </property>
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+	    <property name="realm" ref="myRealm"/>
+	</bean>
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	<bean id="myRealm" class="org.apache.shiro.realm.text.TextConfigurationRealm">
+		<property name="userDefinitions">
+			<value>
+				elim = 123, role1, role2
+				admin = 123, admin
+			</value>
+		</property>
+		<property name="roleDefinitions">
+			<value>
+				role1 = p1, p2, p3
+				role2 = p3, p4, p5
+				admin = admin
+			</value>
+		</property>
+	</bean>
+
+</beans>
